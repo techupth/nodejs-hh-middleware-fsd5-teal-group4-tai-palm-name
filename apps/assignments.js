@@ -1,5 +1,5 @@
 import { Router } from "express";
-
+import { assignmentValidation } from "../middlewares/assignmentValidation.js";
 import { assignments as assignmentsFromFile } from "../data/assignments.js";
 import { comments as commentsFromFile } from "../data/comments.js";
 
@@ -31,9 +31,9 @@ assignmentRouter.get("/:id", (req, res) => {
   });
 });
 
-assignmentRouter.post("/", (req, res) => {
+assignmentRouter.post("/", [assignmentValidation], (req, res) => {
   const newAssignment = req.body;
-  const newAssignmentId = assignments[assignments.length - 1].id + 1;
+  const newAssignmentId = assignments[assignments.length - 1].id + 1 || 1;
 
   assignments.push({
     id: newAssignmentId,
